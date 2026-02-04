@@ -42,7 +42,7 @@ def get_single_movie(movie_id: int):  # put application's code here
     movie = cursor.execute(f"SELECT * FROM movies WHERE id={movie_id}").fetchone()
     if movie is None:
         return {'message': "Movie not found"}
-    return {'title': movie[1], 'year': movie[2], 'actors': movie[3]}
+    return {'id': movie[0], 'title': movie[1], 'year': movie[2], 'actors': movie[3]}
 
 
 @app.post("/movies")
