@@ -32,6 +32,9 @@ export default function MovieForm(props) {
             <label>Actors (comma separated)</label>
             <input type="text" value={actors} onChange={(event) => setActors(event.target.value)}/>
         </div>
-        <button>{props.buttonLabel || 'Submit'}</button>
+        <div>
+            <button type="submit">{props.buttonLabel || 'Submit'}</button>
+            {props.onCancel && <button type="button" onClick={props.onCancel}>Cancel</button>}
+        </div>
     </form>;
 }

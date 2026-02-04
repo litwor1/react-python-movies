@@ -1,5 +1,6 @@
 import './App.css';
 import {useState, useEffect} from "react";
+import {useTransition, animated} from "@react-spring/web";
 import "milligram";
 import MovieForm from "./MovieForm";
 import MoviesList from "./MoviesList";
@@ -7,6 +8,13 @@ import MoviesList from "./MoviesList";
 function App() {
     const [movies, setMovies] = useState([]);
     const [addingMovie, setAddingMovie] = useState(false);
+
+    const formTransitions = useTransition(addingMovie, {
+        from: { opacity: 0, transform: 'translate3d(0, -10px, 0)' },
+        enter: { opacity: 1, transform: 'translate3d(0, 0px, 0)' },
+        leave: { opacity: 0, transform: 'translate3d(0, -10px, 0)' },
+        config: { duration: 300 }
+    });
 
     const fetchMovies = async () => {
         try {
@@ -85,10 +93,16 @@ function App() {
         <div className="container">
             <h1>My favourite movies to watch</h1>
 
-            {addingMovie ? (
-                <MovieForm onMovieSubmit={handleAddMovie} buttonLabel="Add a movie"/>
-            ) : (
+            {!addingMovie && (
                 <button onClick={() => setAddingMovie(true)}>Add a movie</button>
+            )}
+
+            {formTransitions((style, item) =>
+                item ? (
+                    <animated.div style={style}>
+                        <MovieForm onMovieSubmit={handleAddMovie} buttonLabel="Add a movie" onCancel={() => setAddingMovie(false)}/>
+                    </animated.div>
+                ) : null
             )}
 
             {movies.length === 0 ? (
