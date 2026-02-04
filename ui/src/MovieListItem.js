@@ -1,4 +1,8 @@
 export default function MovieListItem(props) {
+    const actorsDisplay = Array.isArray(props.movie.actors)
+        ? props.movie.actors.join(', ')
+        : props.movie.actors || '';
+
     return (
         <div>
             <div>
@@ -8,7 +12,7 @@ export default function MovieListItem(props) {
                 {' '}
                 <a onClick={props.onDelete}>Delete</a>
             </div>
-            {props.movie.actors ? <div><em>Actors:</em> {props.movie.actors}</div> : null}
+            {actorsDisplay ? <div><em>Actors:</em> {actorsDisplay}</div> : null}
         </div>
     );
 }

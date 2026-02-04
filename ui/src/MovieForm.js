@@ -10,7 +10,9 @@ export default function MovieForm(props) {
         if (title.length < 5) {
             return alert('Tytuł jest za krótki');
         }
-        props.onMovieSubmit({title, year, actors});
+        // Convert comma-separated actors string to array
+        const actorsArray = actors.split(',').map(a => a.trim()).filter(a => a);
+        props.onMovieSubmit({title, year, actors: actorsArray});
         setTitle('');
         setYear('');
         setActors('');

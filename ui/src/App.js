@@ -27,7 +27,10 @@ function App() {
     }, []);
 
     async function handleAddMovie(movie) {
-        if (movie.actors === undefined) movie.actors = '';
+        // Ensure actors is an array
+        if (!Array.isArray(movie.actors)) {
+            movie.actors = [];
+        }
         try {
             const response = await fetch('/movies', {
                 method: 'POST',
