@@ -64,6 +64,23 @@ function App() {
         }
     }
 
+    async function handleUpdateActors(movie) {
+        try {
+            const response = await fetch(`/movies/${movie.id}`, {
+                method: 'PUT',
+                body: JSON.stringify({title: movie.title, year: movie.year, actors: movie.actors}),
+                headers: {'Content-Type': 'application/json'}
+            });
+            if (response.ok) {
+                await fetchMovies();
+            } else {
+                console.error('Failed to update movie actors', response.status);
+            }
+        } catch (err) {
+            console.error('Error updating movie actors', err);
+        }
+    }
+
     return (
         <div className="container">
             <h1>My favourite movies to watch</h1>
@@ -77,7 +94,7 @@ function App() {
             {movies.length === 0 ? (
                 <p>No movies yet. Maybe add something?</p>
             ) : (
-                <MoviesList movies={movies} onDeleteMovie={handleDeleteMovie}/>
+                <MoviesList movies={movies} onDeleteMovie={handleDeleteMovie} onUpdateActors={handleUpdateActors}/>
             )}
         </div>
     );
